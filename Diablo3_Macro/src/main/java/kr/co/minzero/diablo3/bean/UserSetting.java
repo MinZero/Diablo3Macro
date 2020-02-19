@@ -68,25 +68,25 @@ public class UserSetting {
 		return skill1Select;
 	}
 	public void setSkill1Select(String skill1Select) {
-		this.skill1Select = skill1Select == null?false:skill1Select.equals("Y");
+		this.skill1Select = skill1Select != null && skill1Select.equals("Y");
 	}
 	public boolean isSkill2Select() {
 		return skill2Select;
 	}
 	public void setSkill2Select(String skill2Select) {
-		this.skill2Select = skill2Select == null?false:skill2Select.equals("Y");
+		this.skill2Select = skill2Select != null && skill2Select.equals("Y");
 	}
 	public boolean isSkill3Select() {
 		return skill3Select;
 	}
 	public void setSkill3Select(String skill3Select) {
-		this.skill3Select = skill3Select == null?false:skill3Select.equals("Y");
+		this.skill3Select = skill3Select != null && skill3Select.equals("Y");
 	}
 	public boolean isSkill4Select() {
 		return skill4Select;
 	}
 	public void setSkill4Select(String skill4Select) {
-		this.skill4Select = skill4Select == null?false:skill4Select.equals("Y");
+		this.skill4Select = skill4Select != null && skill4Select.equals("Y");
 	}
 	public void setSkill1Select(boolean skill1Select) {
 		this.skill1Select = skill1Select;
@@ -123,12 +123,12 @@ public class UserSetting {
 	}
 	
 	public UserSetting(String data){
-		HashMap<String,String> prop = new HashMap<String,String>();
+		HashMap<String,String> prop = new HashMap<>();
 		try{
 			String[] split = data.split(",");
-			for(int i = 0; i < split.length; i++){
+			for (String s : split) {
 //				System.out.println(split[i]);
-				String[] set = split[i].split("=");
+				String[] set = s.split("=");
 				prop.put(set[0], set[1]);
 			}
 		}catch(Exception e){

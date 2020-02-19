@@ -1,9 +1,12 @@
 package kr.co.minzero.diablo3.test;
 
-import javax.swing.KeyStroke;
+import org.junit.Test;
+
+import javax.swing.*;
 
 public class KeyCodeTest {
-	public static void main(String[] args){
+	@Test
+	public void testKeyCode() {
 		KeyStroke ks = KeyStroke.getKeyStroke(("a").charAt(0), 0);
 		System.out.println(ks.getKeyCode());
 	}

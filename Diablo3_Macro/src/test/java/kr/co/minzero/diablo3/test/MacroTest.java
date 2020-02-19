@@ -1,44 +1,25 @@
 package kr.co.minzero.diablo3.test;
+
 import org.jnativehook.GlobalScreen;
 import org.jnativehook.NativeHookException;
 import org.jnativehook.NativeInputEvent;
-import org.jnativehook.SwingDispatchService;
+import org.jnativehook.dispatcher.SwingDispatchService;
 import org.jnativehook.keyboard.NativeKeyEvent;
 import org.jnativehook.keyboard.NativeKeyListener;
 import org.jnativehook.mouse.NativeMouseEvent;
 import org.jnativehook.mouse.NativeMouseInputListener;
 import org.jnativehook.mouse.NativeMouseWheelEvent;
 import org.jnativehook.mouse.NativeMouseWheelListener;
-import javax.swing.JCheckBoxMenuItem;
-import javax.swing.JFrame;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
-import javax.swing.KeyStroke;
-import javax.swing.SwingUtilities;
-import javax.swing.WindowConstants;
+import org.junit.Test;
+
+import javax.swing.*;
 import javax.swing.text.BadLocationException;
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.ItemSelectable;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
+import java.awt.*;
+import java.awt.event.*;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.Date;
-import java.util.logging.ConsoleHandler;
-import java.util.logging.Formatter;
-import java.util.logging.Level;
-import java.util.logging.LogRecord;
-import java.util.logging.Logger;
+import java.util.logging.*;
 
 public class MacroTest extends JFrame implements ActionListener, ItemListener, NativeKeyListener, NativeMouseInputListener, NativeMouseWheelListener, WindowListener {
 
@@ -76,7 +57,7 @@ public class MacroTest extends JFrame implements ActionListener, ItemListener, N
 
 			menuItemQuit = new JMenuItem("Quit", KeyEvent.VK_Q);
 			menuItemQuit.addActionListener(this);
-			menuItemQuit.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F4, ActionEvent.ALT_MASK));
+			menuItemQuit.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F4, InputEvent.ALT_MASK));
 			menuItemQuit.getAccessibleContext().setAccessibleDescription("Exit the program");
 			menuFile.add(menuItemQuit);
 
@@ -87,7 +68,7 @@ public class MacroTest extends JFrame implements ActionListener, ItemListener, N
 
 			menuItemClear = new JMenuItem("Clear", KeyEvent.VK_C);
 			menuItemClear.addActionListener(this);
-			menuItemClear.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C, ActionEvent.CTRL_MASK + ActionEvent.SHIFT_MASK));
+			menuItemClear.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C, InputEvent.SHIFT_MASK | InputEvent.CTRL_MASK));
 			menuItemClear.getAccessibleContext().setAccessibleDescription("Clear the screen");
 			menuView.add(menuItemClear);
 
@@ -96,7 +77,7 @@ public class MacroTest extends JFrame implements ActionListener, ItemListener, N
 			menuItemEnable = new JCheckBoxMenuItem("Enable Native Hook");
 			menuItemEnable.addItemListener(this);
 			menuItemEnable.setMnemonic(KeyEvent.VK_H);
-			menuItemEnable.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_H, ActionEvent.CTRL_MASK + ActionEvent.SHIFT_MASK));
+			menuItemEnable.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_H, InputEvent.SHIFT_MASK | InputEvent.CTRL_MASK));
 			menuView.add(menuItemEnable);
 
 			// Create the listeners sub menu.
@@ -107,25 +88,25 @@ public class MacroTest extends JFrame implements ActionListener, ItemListener, N
 			menuItemKeyboardEvents = new JCheckBoxMenuItem("Keyboard Events");
 			menuItemKeyboardEvents.addItemListener(this);
 			menuItemKeyboardEvents.setMnemonic(KeyEvent.VK_K);
-			menuItemKeyboardEvents.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_K, ActionEvent.CTRL_MASK + ActionEvent.SHIFT_MASK));
+			menuItemKeyboardEvents.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_K, InputEvent.SHIFT_MASK | InputEvent.CTRL_MASK));
 			menuSubListeners.add(menuItemKeyboardEvents);
 
 			menuItemButtonEvents = new JCheckBoxMenuItem("Button Events");
 			menuItemButtonEvents.addItemListener(this);
 			menuItemButtonEvents.setMnemonic(KeyEvent.VK_B);
-			menuItemButtonEvents.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_B, ActionEvent.CTRL_MASK + ActionEvent.SHIFT_MASK));
+			menuItemButtonEvents.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_B, InputEvent.SHIFT_MASK | InputEvent.CTRL_MASK));
 			menuSubListeners.add(menuItemButtonEvents);
 
 			menuItemMotionEvents = new JCheckBoxMenuItem("Motion Events");
 			menuItemMotionEvents.addItemListener(this);
 			menuItemMotionEvents.setMnemonic(KeyEvent.VK_M);
-			menuItemMotionEvents.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_M, ActionEvent.CTRL_MASK + ActionEvent.SHIFT_MASK));
+			menuItemMotionEvents.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_M, InputEvent.SHIFT_MASK | InputEvent.CTRL_MASK));
 			menuSubListeners.add(menuItemMotionEvents);
 
 			menuItemWheelEvents = new JCheckBoxMenuItem("Wheel Events");
 			menuItemWheelEvents.addItemListener(this);
 			menuItemWheelEvents.setMnemonic(KeyEvent.VK_W);
-			menuItemWheelEvents.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_W, ActionEvent.CTRL_MASK + ActionEvent.SHIFT_MASK));
+			menuItemWheelEvents.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_W, InputEvent.SHIFT_MASK | InputEvent.CTRL_MASK));
 			menuSubListeners.add(menuItemWheelEvents);
 
 			setJMenuBar(menuBar);
@@ -163,7 +144,7 @@ public class MacroTest extends JFrame implements ActionListener, ItemListener, N
 		}
 
 		/**
-		 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+		 * @see ActionListener#actionPerformed(ActionEvent)
 		 */
 		public void actionPerformed(ActionEvent e) {
 			if (e.getSource() == menuItemQuit) {
@@ -175,7 +156,7 @@ public class MacroTest extends JFrame implements ActionListener, ItemListener, N
 		}
 
 		/**
-		 * @see java.awt.event.ItemListener#itemStateChanged(java.awt.event.ItemEvent)
+		 * @see ItemListener#itemStateChanged(ItemEvent)
 		 */
 		public void itemStateChanged(ItemEvent e) {
 			ItemSelectable item = e.getItemSelectable();
@@ -241,63 +222,63 @@ public class MacroTest extends JFrame implements ActionListener, ItemListener, N
 		}
 
 		/**
-		 * @see org.jnativehook.keyboard.NativeKeyListener#nativeKeyPressed(org.jnativehook.keyboard.NativeKeyEvent)
+		 * @see NativeKeyListener#nativeKeyPressed(NativeKeyEvent)
 		 */
 		public void nativeKeyPressed(NativeKeyEvent e) {
 			displayEventInfo(e);
 		}
 
 		/**
-		 * @see org.jnativehook.keyboard.NativeKeyListener#nativeKeyReleased(org.jnativehook.keyboard.NativeKeyEvent)
+		 * @see NativeKeyListener#nativeKeyReleased(NativeKeyEvent)
 		 */
 		public void nativeKeyReleased(NativeKeyEvent e) {
 			displayEventInfo(e);
 		}
 
 		/**
-		 * @see org.jnativehook.keyboard.NativeKeyListener#nativeKeyTyped(org.jnativehook.keyboard.NativeKeyEvent)
+		 * @see NativeKeyListener#nativeKeyTyped(NativeKeyEvent)
 		 */
 		public void nativeKeyTyped(NativeKeyEvent e) {
 			displayEventInfo(e);
 		}
 
 		/**
-		 * @see org.jnativehook.mouse.NativeMouseListener#nativeMouseClicked(org.jnativehook.mouse.NativeMouseEvent)
+		 * @see org.jnativehook.mouse.NativeMouseListener#nativeMouseClicked(NativeMouseEvent)
 		 */
 		public void nativeMouseClicked(NativeMouseEvent e) {
 			displayEventInfo(e);
 		}
 
 		/**
-		 * @see org.jnativehook.mouse.NativeMouseListener#nativeMousePressed(org.jnativehook.mouse.NativeMouseEvent)
+		 * @see org.jnativehook.mouse.NativeMouseListener#nativeMousePressed(NativeMouseEvent)
 		 */
 		public void nativeMousePressed(NativeMouseEvent e) {
 			displayEventInfo(e);
 		}
 
 		/**
-		 * @see org.jnativehook.mouse.NativeMouseListener#nativeMouseReleased(org.jnativehook.mouse.NativeMouseEvent)
+		 * @see org.jnativehook.mouse.NativeMouseListener#nativeMouseReleased(NativeMouseEvent)
 		 */
 		public void nativeMouseReleased(NativeMouseEvent e) {
 			displayEventInfo(e);
 		}
 
 		/**
-		 * @see org.jnativehook.mouse.NativeMouseMotionListener#nativeMouseMoved(org.jnativehook.mouse.NativeMouseEvent)
+		 * @see org.jnativehook.mouse.NativeMouseMotionListener#nativeMouseMoved(NativeMouseEvent)
 		 */
 		public void nativeMouseMoved(NativeMouseEvent e) {
 			displayEventInfo(e);
 		}
 
 		/**
-		 * @see org.jnativehook.mouse.NativeMouseMotionListener#nativeMouseDragged(org.jnativehook.mouse.NativeMouseEvent)
+		 * @see org.jnativehook.mouse.NativeMouseMotionListener#nativeMouseDragged(NativeMouseEvent)
 		 */
 		public void nativeMouseDragged(NativeMouseEvent e) {
 			displayEventInfo(e);
 		}
 
 		/**
-		 * @see org.jnativehook.mouse.NativeMouseWheelListener#nativeMouseWheelMoved(org.jnativehook.mouse.NativeMouseWheelEvent)
+		 * @see NativeMouseWheelListener#nativeMouseWheelMoved(NativeMouseWheelEvent)
 		 */
 		public void nativeMouseWheelMoved(NativeMouseWheelEvent e) {
 			displayEventInfo(e);
@@ -328,35 +309,35 @@ public class MacroTest extends JFrame implements ActionListener, ItemListener, N
 		/**
 		 * Unimplemented
 		 *
-		 * @see java.awt.event.WindowListener#windowActivated(java.awt.event.WindowEvent)
+		 * @see WindowListener#windowActivated(WindowEvent)
 		 */
 		public void windowActivated(WindowEvent e) { /* Do Nothing */ }
 
 		/**
 		 * Unimplemented
 		 *
-		 * @see java.awt.event.WindowListener#windowClosing(java.awt.event.WindowEvent)
+		 * @see WindowListener#windowClosing(WindowEvent)
 		 */
 		public void windowClosing(WindowEvent e) { /* Do Nothing */ }
 
 		/**
 		 * Unimplemented
 		 *
-		 * @see java.awt.event.WindowListener#windowDeactivated(java.awt.event.WindowEvent)
+		 * @see WindowListener#windowDeactivated(WindowEvent)
 		 */
 		public void windowDeactivated(WindowEvent e) { /* Do Nothing */ }
 
 		/**
 		 * Unimplemented
 		 *
-		 * @see java.awt.event.WindowListener#windowDeiconified(java.awt.event.WindowEvent)
+		 * @see WindowListener#windowDeiconified(WindowEvent)
 		 */
 		public void windowDeiconified(WindowEvent e) { /* Do Nothing */ }
 
 		/**
 		 * Unimplemented
 		 *
-		 * @see java.awt.event.WindowListener#windowIconified(java.awt.event.WindowEvent)
+		 * @see WindowListener#windowIconified(WindowEvent)
 		 */
 		public void windowIconified(WindowEvent e) { /* Do Nothing */ }
 
@@ -364,7 +345,7 @@ public class MacroTest extends JFrame implements ActionListener, ItemListener, N
 		 * Display information about the native keyboard and mouse along with any
 		 * errors that may have occurred.
 		 *
-		 * @see java.awt.event.WindowListener#windowOpened(java.awt.event.WindowEvent)
+		 * @see WindowListener#windowOpened(WindowEvent)
 		 */
 		public void windowOpened(WindowEvent e) {
 			// Return the focus to the window.
@@ -399,7 +380,7 @@ public class MacroTest extends JFrame implements ActionListener, ItemListener, N
 		/**
 		 * Finalize and exit the program.
 		 *
-		 * @see java.awt.event.WindowListener#windowClosed(java.awt.event.WindowEvent)
+		 * @see WindowListener#windowClosed(WindowEvent)
 		 */
 		public void windowClosed(WindowEvent e) {
 			// Clean up the native hook.
@@ -416,33 +397,29 @@ public class MacroTest extends JFrame implements ActionListener, ItemListener, N
 		/**
 		 * The demo project entry point.
 		 *
-		 * @param args unused.
 		 */
-		public static void main(String[] args) {
-			StringBuffer copyright = new StringBuffer("\n")
-					.append("JNativeHook: Global keyboard and mouse hooking for Java.\n")
-					.append("Copyright (C) 2006-2015 Alexander Barker.  All Rights Received.\n")
-					.append("https://github.com/kwhat/jnativehook/\n")
-					.append("\n")
-					.append("JNativeHook is free software: you can redistribute it and/or modify\n")
-					.append("it under the terms of the GNU Lesser General Public License as published\n")
-					.append("by the Free Software Foundation, either version 3 of the License, or\n")
-					.append("(at your option) any later version.\n")
-					.append("\n")
-					.append("JNativeHook is distributed in the hope that it will be useful,\n")
-					.append("but WITHOUT ANY WARRANTY; without even the implied warranty of\n")
-					.append("MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n")
-					.append("GNU General Public License for more details.\n")
-					.append("\n")
-					.append("You should have received a copy of the GNU Lesser General Public License\n")
-					.append("along with this program.  If not, see <http://www.gnu.org/licenses/>.\n");
+		@Test
+		public void main() throws Exception{
+			String copyright = "\n" +
+					"JNativeHook: Global keyboard and mouse hooking for Java.\n" +
+					"Copyright (C) 2006-2015 Alexander Barker.  All Rights Received.\n" +
+					"https://github.com/kwhat/jnativehook/\n" +
+					"\n" +
+					"JNativeHook is free software: you can redistribute it and/or modify\n" +
+					"it under the terms of the GNU Lesser General Public License as published\n" +
+					"by the Free Software Foundation, either version 3 of the License, or\n" +
+					"(at your option) any later version.\n" +
+					"\n" +
+					"JNativeHook is distributed in the hope that it will be useful,\n" +
+					"but WITHOUT ANY WARRANTY; without even the implied warranty of\n" +
+					"MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n" +
+					"GNU General Public License for more details.\n" +
+					"\n" +
+					"You should have received a copy of the GNU Lesser General Public License\n" +
+					"along with this program.  If not, see <http://www.gnu.org/licenses/>.\n";
 			System.out.println(copyright);
 
-			SwingUtilities.invokeLater(new Runnable() {
-				public void run() {
-					new MacroTest();
-				}
-			});
+			SwingUtilities.invokeLater(MacroTest::new);
 		}
 
 		/**
@@ -450,7 +427,7 @@ public class MacroTest extends JFrame implements ActionListener, ItemListener, N
 		 *
 		 * @see java.util.Formatter
 		 */
-		private final class LogFormatter extends Formatter {
+		private static final class LogFormatter extends Formatter {
 			@Override
 			public String format(LogRecord record) {
 				StringBuilder line = new StringBuilder();

@@ -1,27 +1,20 @@
 package kr.co.minzero.diablo3.ui;
 
-import java.awt.GridLayout;
-import java.awt.Robot;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
-import javax.swing.JCheckBox;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
-import javax.swing.KeyStroke;
-import javax.swing.text.AttributeSet;
-import javax.swing.text.BadLocationException;
-import javax.swing.text.PlainDocument;
-
+import kr.co.minzero.diablo3.bean.ChangeUserSetting;
+import kr.co.minzero.diablo3.bean.UserSetting;
 import org.jnativehook.GlobalScreen;
 import org.jnativehook.keyboard.NativeKeyEvent;
 import org.jnativehook.keyboard.NativeKeyListener;
 
-import kr.co.minzero.diablo3.bean.ChangeUserSetting;
-import kr.co.minzero.diablo3.bean.UserSetting;
+import javax.swing.*;
+import javax.swing.text.AttributeSet;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.PlainDocument;
+import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 @SuppressWarnings("serial")
 public class MacroUserInterface extends JFrame implements NativeKeyListener{
@@ -134,7 +127,7 @@ public class MacroUserInterface extends JFrame implements NativeKeyListener{
 		try{
 			KeyStroke ks = KeyStroke.getKeyStroke(keycode.charAt(0), 0);
 			key = ks.getKeyCode();
-		}catch(Exception e){
+		}catch(Exception ignored){
 		}
 		return key;
 	}
@@ -142,22 +135,22 @@ public class MacroUserInterface extends JFrame implements NativeKeyListener{
 	public void startKeyPress(){
 		if(skill1.isSelected()){
 			key1 = null;
-			key1 = new KeyThread(stringToKeyCode(us.getSkill1Key()), time1.getText().equals("")?10:Integer.parseInt(time1.getText())); // 숫자 1 1초 간격
+			key1 = new KeyThread(stringToKeyCode(us.getSkill1Key()), time1.getText().equals("") ? 10 : Integer.parseInt(time1.getText())); // 숫자 1 1초 간격
 			key1.start();
 		}
 		if(skill2.isSelected()){
 			key2 = null;
-			key2 = new KeyThread(stringToKeyCode(us.getSkill2Key()), time2.getText().equals("")?10:Integer.parseInt(time2.getText())); // 숫자 2 1초 간격
+			key2 = new KeyThread(stringToKeyCode(us.getSkill2Key()), time2.getText().equals("") ? 10 : Integer.parseInt(time2.getText())); // 숫자 2 1초 간격
 			key2.start();
 		}
 		if(skill3.isSelected()){
 			key3 = null;
-			key3 = new KeyThread(stringToKeyCode(us.getSkill3Key()), time3.getText().equals("")?10:Integer.parseInt(time3.getText())); // 숫자 3 1초 간격
+			key3 = new KeyThread(stringToKeyCode(us.getSkill3Key()), time3.getText().equals("") ? 10 : Integer.parseInt(time3.getText())); // 숫자 3 1초 간격
 			key3.start();
 		}
 		if(skill4.isSelected()){
 			key4 = null;
-			key4 = new KeyThread(stringToKeyCode(us.getSkill4Key()), time4.getText().equals("")?10:Integer.parseInt(time4.getText())); // 숫자 4 1초 간격
+			key4 = new KeyThread(stringToKeyCode(us.getSkill4Key()), time4.getText().equals("") ? 10 : Integer.parseInt(time4.getText())); // 숫자 4 1초 간격
 			key4.start();
 		}
 		
@@ -229,7 +222,7 @@ public class MacroUserInterface extends JFrame implements NativeKeyListener{
 		
 	}
 	
-	class KeyThread extends Thread{
+	static class KeyThread extends Thread{
 		private int keyCode;
 		private int delayTime;
 		
@@ -251,7 +244,7 @@ public class MacroUserInterface extends JFrame implements NativeKeyListener{
 		}
 	}
 	
-	class ex extends PlainDocument{
+	static class ex extends PlainDocument{
 		ex() {
 			super();
 		}

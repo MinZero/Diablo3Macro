@@ -11,8 +11,8 @@ public class ChangeUserSetting {
 		try{
 			BufferedReader in = new BufferedReader(new FileReader("diablo3macro.cfg"));
 
-			String s = "";
-			  
+			String s;
+
 			while ((s = in.readLine()) != null) {
 				us = new UserSetting(s);
 			}
@@ -21,7 +21,9 @@ public class ChangeUserSetting {
 			System.out.println("FileNotFound");
 			us = new UserSetting();
 		}
-		System.out.println(us.toString());
+		if (us != null)
+			System.out.println(us.toString());
+
 		return us;
 	}
 	
@@ -30,7 +32,7 @@ public class ChangeUserSetting {
 			BufferedWriter out = new BufferedWriter(new FileWriter("diablo3macro.cfg", false));
 			out.write(us.toString());
 			out.close();
-		}catch(Exception e){
+		}catch(Exception ignored){
 			
 		}
 	}
